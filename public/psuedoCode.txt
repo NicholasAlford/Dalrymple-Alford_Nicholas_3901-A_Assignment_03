@@ -1,0 +1,25 @@
+randColorPos
+    return rand(0-2)
+
+for (0-5)
+    if randColorPos = 0
+        create button 
+        setattribute backgroundcolor red
+        setattribute width
+        setattribute height
+        
+        body.appendChild(button)
+    else if randColorPos = 1
+        create button 
+        setattribute backgroundcolor grn
+        setattribute width
+        setattribute height
+        
+        body.appendChild(button)
+    else if randColorPos = 2
+        create button 
+        setattribute backgroundcolor blue
+        setattribute width
+        setattribute height
+        
+        body.appendChild(button)    

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+       
+
+        <!-- some very nice color buttons -->
+        <button id="green" style="height:250px; width:250px; background-color:green; color:whitesmoke;">GREEN</button>
+       
+        <p>
+            playerOne: 
+        </p>
+        <p id = playerOne>
+            0
+        </p>
+        <br>
+        <p>
+            playerTwo: 
+        </p>
+        <p id = playerTwo>
+            0
+        </p>
+        <h3 id = "mess">-</h3>
+
+        <!-- scripts go to bottom if you want them to execute AFTER the rest of the web page renders -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let socket = io();
+
+            //default connect event
+            socket.on('connect', function() {
+                console.log("connected!");
+            });
+            
+            socket.on('Score', function(data) {
+                            
+               var score1 = document.getElementById("playerOne");
+               var score2 = document.getElementById("playerTwo");
+
+               score1.innerHTML = data[0];
+               score2.innerHTML = data[1];
+
+
+            });
+
+            socket.on('Win', function(data) {
+                
+                var victory = document.getElementById("mess");
+                var button = document.getElementById("green");
+                button.disabled = true;
+                button.style.background ="#95a5a6";
+    
+                victory.innerHTML = data + " has Won!";
+            });
+         
+            document.querySelector('#green').addEventListener('click', function() {
+                socket.emit('playerTwo');
+            });
+
+            
+        </script>
+    </body>
+</html>

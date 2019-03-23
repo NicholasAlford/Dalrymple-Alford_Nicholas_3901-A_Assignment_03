@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>This is the cooperative client</h1>
+
+        <!-- some very nice color buttons -->
+        <div>
+            <button id="red1" style="height:250px; width:250px; background-color:red; color:whitesmoke;">RED</button>
+            <button id="green1" style="height:250px; width:250px; background-color:green; color:whitesmoke;">GREEN</button>
+            <button id="blue1" style= "height:250px; width:250px; background-color:blue; color:whitesmoke;">BLUE</button>
+            <button id="red2" style="height:250px; width:250px; background-color:red; color:whitesmoke;">RED</button>
+            <button id="green2" style="height:250px; width:250px; background-color:green; color:whitesmoke;">GREEN</button>
+            <button id="blue2" style= "height:250px; width:250px; background-color:blue; color:whitesmoke;">BLUE</button>
+        </div>
+
+        <!-- scripts go to bottom if you want them to execute AFTER the rest of the web page renders -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var ul = document.querySelector('div');
+            for (var i = ul.children.length; i >= 0; i--) {
+                ul.appendChild(ul.children[Math.random() * i | 0]);
+            }
+        </script>
+        <script>
+            let socket = io();
+
+            //default connect event
+            socket.on('connect', function() {
+                console.log("connected!");
+            });
+
+            //let's send some events to the server to pass on. Programmatic telephone game!
+            //querySelector() is a more modern and versatile function of getElementById()
+            //#name or class
+            //.name for classes
+            //etc.
+            //https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector 
+            //note that querySelector can also be used on elements so that you only search for their children
+            //instead of all elements within teh "document"
+            socket.on('color_change', function(data){
+                console.log(data);
+
+                var button = document.getElementById(data);
+                button.disabled = true;
+                button.style.background ="#95a5a6";
+
+            });
+            document.querySelector('#red1').addEventListener('click', function() {
+                socket.emit('red');
+            });
+
+            document.querySelector('#green1').addEventListener('click', function() {
+                socket.emit('green');
+            });
+
+            document.querySelector('#blue1').addEventListener('click', function() {
+                socket.emit('blue');
+            });
+            document.querySelector('#red2').addEventListener('click', function() {
+                socket.emit('red2');
+            });
+
+            document.querySelector('#green2').addEventListener('click', function() {
+                socket.emit('green2');
+            });
+
+            document.querySelector('#blue2').addEventListener('click', function() {
+                socket.emit('blue2');
+            });
+        </script>
+    </body>
+</html>
